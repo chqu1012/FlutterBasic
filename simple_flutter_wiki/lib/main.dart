@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:simple_flutter_wiki/control/BottomNavigatorPane.dart';
 import 'package:simple_flutter_wiki/control/ListViewFlutterPage.dart';
 import 'dart:convert';
 import 'model/FlutterPage.dart';
@@ -20,10 +21,7 @@ class FlutterWikiApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Simple Flutter Wiki',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+      theme: new ThemeData(primaryColor: Color.fromRGBO(58, 66, 86, 1.0)),
       home: WikiPage(title: 'Flutter Wiki App'),
     );
   }
@@ -42,9 +40,9 @@ class _WikiPageState extends State<WikiPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
+      backgroundColor: Color.fromRGBO(55, 65, 85, 1.0),
+      appBar: AppBar(title: Text(widget.title)),
+      bottomNavigationBar: BottomNavigationPane(),
       body: FlutterPageListView(),
     );
   }
