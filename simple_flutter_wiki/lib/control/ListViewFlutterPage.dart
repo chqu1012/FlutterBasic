@@ -38,11 +38,13 @@ class FlutterPageListView extends StatelessWidget {
     return ListView.builder(
         itemCount: data.length,
         itemBuilder: (context, index) {
-          return _tile(data[index].title, data[index].content, Icons.work);
+          return _tile(
+              data[index], data[index].title, data[index].content, Icons.work);
         });
   }
 
-  ListTile _tile(String title, String subtitle, IconData icon) => ListTile(
+  ListTile _tile(dynamic data, String title, String subtitle, IconData icon) =>
+      ListTile(
         title: Text(title,
             style: TextStyle(
               fontWeight: FontWeight.w500,
@@ -53,5 +55,10 @@ class FlutterPageListView extends StatelessWidget {
           icon,
           color: Colors.blue[500],
         ),
+        onTap: () => onTileClicked(data),
       );
+
+  void onTileClicked(dynamic data) {
+    print(data.title);
+  }
 }

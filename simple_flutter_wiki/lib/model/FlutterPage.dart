@@ -5,23 +5,14 @@ class FlutterPage {
   String updated;
 
   FlutterPage({this.title, this.content, this.created, this.updated});
-/**
+
   FlutterPage.fromJson(Map<String, dynamic> json) {
     title = json['title'];
     content = json['content'];
     created = json['created'];
     updated = json['updated'];
   }
- */
-  factory FlutterPage.fromJson(Map<String, dynamic> json) {
-    return FlutterPage(
-      title: json['title'],
-      content: json['content'],
-      created: json['created'],
-      updated: json['updated'],
-    );
-  }
-/**
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['title'] = this.title;
@@ -30,5 +21,4 @@ class FlutterPage {
     data['updated'] = this.updated;
     return data;
   }
-  */
 }
