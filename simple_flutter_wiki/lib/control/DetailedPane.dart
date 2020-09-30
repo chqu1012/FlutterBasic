@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:simple_flutter_wiki/model/FlutterPage.dart';
 
 class DetailedPane extends StatelessWidget {
-  // final FlutterPage page;
-  //DetailedPane({this.page});
+  final FlutterPage page;
+  DetailedPane({this.page});
   @override
   Widget build(BuildContext context) {
     final levelIndicator = Container(
@@ -21,7 +21,7 @@ class DetailedPane extends StatelessWidget {
           border: new Border.all(color: Colors.white),
           borderRadius: BorderRadius.circular(5.0)),
       child: new Text(
-        "\$" + 'Hello World', //page.title,
+        "\$" + page.title,
         style: TextStyle(color: Colors.white),
       ),
     );
@@ -41,8 +41,7 @@ class DetailedPane extends StatelessWidget {
         ),
         SizedBox(height: 10.0),
         Text(
-          'Hello World',
-          //page.title,
+          page.title,
           style: TextStyle(color: Colors.white, fontSize: 45.0),
         ),
         SizedBox(height: 30.0),
@@ -55,8 +54,7 @@ class DetailedPane extends StatelessWidget {
                 child: Padding(
                     padding: EdgeInsets.only(left: 10.0),
                     child: Text(
-                      'Hello World',
-                      //page.title,
+                      page.title,
                       style: TextStyle(color: Colors.white),
                     ))),
             Expanded(flex: 1, child: coursePrice)
@@ -99,8 +97,7 @@ class DetailedPane extends StatelessWidget {
     );
 
     final bottomContentText = Text(
-      'Hello World',
-      //page.content,
+      page.content,
       style: TextStyle(fontSize: 18.0),
     );
     final readButton = Container(

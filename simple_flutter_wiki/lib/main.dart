@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:simple_flutter_wiki/control/BottomNavigatorPane.dart';
 import 'package:simple_flutter_wiki/control/ListViewFlutterPage.dart';
+import 'package:simple_flutter_wiki/provider/WikiRestProvider.dart';
 import 'dart:convert';
 import 'model/FlutterPage.dart';
 
@@ -37,6 +38,8 @@ class WikiPage extends StatefulWidget {
 }
 
 class _WikiPageState extends State<WikiPage> {
+  var isLoading = false;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,16 +47,38 @@ class _WikiPageState extends State<WikiPage> {
       appBar: AppBar(
         elevation: 0.1,
         backgroundColor: Color.fromRGBO(55, 65, 85, 1.0),
-        title: Text(widget.title),
+        title: Text('Server'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.list),
-            onPressed: () {},
+            onPressed: () async {
+              await _loadFromApi();
+            },
           )
         ],
       ),
       bottomNavigationBar: BottomNavigationPane(),
-      body: FlutterPageListView(),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : FlutterPageListView(),
     );
+  }
+
+  _loadFromApi() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    var apiProvider = WikiRestProvider();
+    await apiProvider.findAllPages();
+
+    // wait for 2 seconds to simulate loading of data
+    await Future.delayed(const Duration(seconds: 2));
+
+    setState(() {
+      isLoading = false;
+    });
   }
 }

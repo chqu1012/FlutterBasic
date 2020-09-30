@@ -3,12 +3,13 @@ import 'package:simple_flutter_wiki/control/DetailedPane.dart';
 import 'package:simple_flutter_wiki/model/FlutterPage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:simple_flutter_wiki/provider/DBProvider.dart';
 
 class FlutterPageListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<FlutterPage>>(
-      future: _fetchPages(),
+      future: DBProvider.db.getAllPages(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<FlutterPage> data = snapshot.data;
@@ -100,7 +101,7 @@ class FlutterPageListView extends StatelessWidget {
 
   void onTileClicked(BuildContext context, FlutterPage data) {
     print(data.title);
-    Navigator.push(
-        context, MaterialPageRoute(builder: (context) => DetailedPane()));
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => DetailedPane(page: data)));
   }
 }
