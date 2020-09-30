@@ -41,7 +41,17 @@ class _WikiPageState extends State<WikiPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color.fromRGBO(55, 65, 85, 1.0),
-      appBar: AppBar(title: Text(widget.title)),
+      appBar: AppBar(
+        elevation: 0.1,
+        backgroundColor: Color.fromRGBO(55, 65, 85, 1.0),
+        title: Text(widget.title),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.list),
+            onPressed: () {},
+          )
+        ],
+      ),
       bottomNavigationBar: BottomNavigationPane(),
       body: FlutterPageListView(),
     );
