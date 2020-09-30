@@ -1,4 +1,4 @@
-package com.example.simple_wiki_flutter
+package com.example.simple_flutter_wiki
 
 import io.flutter.embedding.android.FlutterActivity
 

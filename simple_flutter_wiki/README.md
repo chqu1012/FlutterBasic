@@ -1,4 +1,4 @@
-# simple_wiki_flutter
+# simple_flutter_wiki
 
 A new Flutter project.
 
