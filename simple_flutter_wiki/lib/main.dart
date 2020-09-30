@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:simple_flutter_wiki/control/ListViewFlutterPage.dart';
+import 'dart:convert';
+import 'model/FlutterPage.dart';
 
 void main() => runApp(FlutterWikiApp());
+
+Future<List<FlutterPage>> fetchPages(int index) async {
+  final response = await http.get('http://192.168.0.157:8080/pages');
+  if (response.statusCode == 200) {
+    Iterable list = json.decode(response.body);
+    return list.map((model) => FlutterPage.fromJson(model)).toList();
+  } else {
+    throw Exception('Failed to load page with id $index');
+  }
+}
 
 class FlutterWikiApp extends StatelessWidget {
   Widget build(BuildContext context) {
@@ -25,35 +39,13 @@ class WikiPage extends StatefulWidget {
 }
 
 class _WikiPageState extends State<WikiPage> {
-  List<String> items = List<String>.generate(20, (index) => 'Item #$index');
-
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-          child: ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text(items[index]),
-                );
-              })),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
+      body: FlutterPageListView(),
     );
   }
 }
