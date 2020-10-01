@@ -3,10 +3,12 @@ package de.dc.simple.wiki.server.control;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Controller;
 
 import de.dc.simple.wiki.server.control.cell.CategoryListCell;
 import de.dc.simple.wiki.server.control.converter.CategoryConverter;
+import de.dc.simple.wiki.server.event.PageEvent;
 import de.dc.simple.wiki.server.model.Category;
 import de.dc.simple.wiki.server.model.Page;
 import de.dc.simple.wiki.server.service.ICategoryService;
@@ -21,7 +23,7 @@ import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 @Controller
-public class WikiAdmin extends BaseWikiAdmin {
+public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<PageEvent>{
 
 	@Autowired IPageService pageService;
 	@Autowired ICategoryService categoryService;
@@ -130,5 +132,11 @@ public class WikiAdmin extends BaseWikiAdmin {
 			Category category = categoryService.create(name);
 			masterCategoryData.add(category);
 		});
+	}
+
+	@Override
+	public void onApplicationEvent(PageEvent event) {
+		Page page = event.getPage();		
+		add(page);
 	}
 }
