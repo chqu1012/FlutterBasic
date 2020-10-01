@@ -1,3 +1,4 @@
+import 'package:simple_flutter_wiki/model/FlutterCategory.dart';
 import 'package:simple_flutter_wiki/model/FlutterPage.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
@@ -13,10 +14,27 @@ class WikiRestProvider {
       List jsonResponse = json.decode(response.body);
       List<FlutterPage> pages = jsonResponse.map((page) {
         print('Inserting $page');
-        DBProvider.db.insert(FlutterPage.fromJson(page));
+        DBProvider.db.insertPage(FlutterPage.fromJson(page));
       }).toList();
 
       return pages;
+    } else {
+      throw Exception('Failed to load jobs from API');
+    }
+  }
+
+  Future<List<FlutterCategory>> findAllCategories() async {
+    final pagesListAPIUrl = 'http://192.168.0.157:8080/categories';
+    final response = await http.get(pagesListAPIUrl);
+
+    if (response.statusCode == 200) {
+      List jsonResponse = json.decode(response.body);
+      List<FlutterCategory> categories = jsonResponse.map((category) {
+        print('Inserting $category');
+        DBProvider.db.insertCategory(FlutterCategory.fromJson(category));
+      }).toList();
+
+      return categories;
     } else {
       throw Exception('Failed to load jobs from API');
     }

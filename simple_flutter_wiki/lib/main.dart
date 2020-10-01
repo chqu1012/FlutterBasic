@@ -70,7 +70,7 @@ class _WikiPageState extends State<WikiPage> {
 
     var apiProvider = WikiRestProvider();
     await apiProvider.findAllPages();
-
+    await apiProvider.findAllCategories();
     // wait for 2 seconds to simulate loading of data
     await Future.delayed(const Duration(seconds: 2));
 

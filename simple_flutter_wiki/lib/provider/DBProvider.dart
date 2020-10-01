@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:simple_flutter_wiki/model/FlutterCategory.dart';
 import 'package:simple_flutter_wiki/model/FlutterPage.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -30,11 +31,25 @@ class DBProvider {
         onCreate: (Database db, int version) async {
       await db.execute(
           "CREATE TABLE pages(id INTEGER PRIMARY KEY, title TEXT, content TEXT, created TEXT, updated TEXT, categoryId INTEGER)");
+      await db.execute(
+          "CREATE TABLE categories(id INTEGER PRIMARY KEY, name TEXT, created TEXT, updated TEXT)");
     });
   }
 
   // Insert pages on database
-  insert(FlutterPage newPage) async {
+  insertCategory(FlutterCategory newCategory) async {
+    var exist = await existCategory(newCategory.id);
+    if (exist == false) {
+      final db = await database;
+      final res = await db.insert('categories', newCategory.toJson());
+      return res;
+    } else {
+      return newCategory;
+    }
+  }
+
+  // Insert pages on database
+  insertPage(FlutterPage newPage) async {
     var exist = await existPage(newPage.id);
     if (exist == false) {
       final db = await database;
@@ -43,6 +58,13 @@ class DBProvider {
     } else {
       return newPage;
     }
+  }
+
+  Future<bool> existCategory(int id) async {
+    var dbclient = _database;
+    int count = Sqflite.firstIntValue(await dbclient
+        .rawQuery("SELECT COUNT(*) FROM Categories WHERE id=$id"));
+    return count == 1;
   }
 
   Future<bool> existPage(int id) async {
@@ -60,13 +82,23 @@ class DBProvider {
     return res;
   }
 
-  Future<List<FlutterPage>> findAll() async {
+  Future<List<FlutterPage>> findAllPages() async {
     final db = await database;
     final res = await db.rawQuery("SELECT * FROM pages");
 
     List<FlutterPage> list =
         res.isNotEmpty ? res.map((c) => FlutterPage.fromJson(c)).toList() : [];
 
+    return list;
+  }
+
+  Future<List<FlutterCategory>> findAllCategories() async {
+    final db = await database;
+    final res = await db.rawQuery("SELECT * FROM categories");
+
+    List<FlutterCategory> list = res.isNotEmpty
+        ? res.map((c) => FlutterCategory.fromJson(c)).toList()
+        : [];
     return list;
   }
 }

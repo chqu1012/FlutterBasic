@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:simple_flutter_wiki/model/FlutterPage.dart';
+import 'package:simple_flutter_wiki/model/FlutterCategory.dart';
 import 'package:simple_flutter_wiki/provider/DBProvider.dart';
 import 'package:simple_flutter_wiki/provider/WikiRestProvider.dart';
 
@@ -63,23 +62,35 @@ class NewPageFormular extends StatelessWidget {
                       fontWeight: FontWeight.w200,
                       fontFamily: "Roboto"),
                 ),
-                new DropdownButton<String>(
-                  onChanged: popupButtonSelected,
-                  value: "Child 1",
-                  style: new TextStyle(
-                      fontSize: 12.0,
-                      color: const Color(0xFF97b8ea),
-                      fontWeight: FontWeight.w200,
-                      fontFamily: "Roboto"),
-                  items: <DropdownMenuItem<String>>[
-                    const DropdownMenuItem<String>(
-                        value: "Child 1", child: const Text("Child 1")),
-                    const DropdownMenuItem<String>(
-                        value: "Child 2", child: const Text("Child 2")),
-                    const DropdownMenuItem<String>(
-                        value: "Child 3", child: const Text("Child 3")),
-                  ],
-                ),
+                FutureBuilder(
+                    future: DBProvider.db.findAllCategories(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasError) return Text(snapshot.error);
+
+                      if (snapshot.hasData) {
+                        return DropdownButtonFormField(
+                          decoration: new InputDecoration(
+                              icon: Icon(
+                                  Icons.language)), //, color: Colors.white10
+                          items: snapshot.data
+                              .map<DropdownMenuItem<FlutterCategory>>(
+                                  (FlutterCategory category) {
+                            return DropdownMenuItem<FlutterCategory>(
+                              value: category,
+                              child: Text(category.name,
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(58, 66, 46, .9))),
+                            );
+                          }).toList(),
+
+                          onChanged: (FlutterCategory newValue) {
+                            // selectedCountry = newValue;
+                            print(newValue.id);
+                            print(newValue.name);
+                          },
+                        );
+                      }
+                    }),
                 new RaisedButton(
                     key: null,
                     onPressed: () => buttonPressed(context),
@@ -96,14 +107,16 @@ class NewPageFormular extends StatelessWidget {
         ));
   }
 
+  void onDropDownChanged(FlutterCategory category) {
+    print(category.name);
+  }
+
   void buttonPressed(BuildContext context) {
     var content = bindingContent.text;
     var title = bindingTitle.text;
     var apiProvider = WikiRestProvider();
     apiProvider.create(title, content);
 
-    var newPage = FlutterPage(title: title, content: content);
-    DBProvider.db.insert(newPage);
     Navigator.pop(context);
   }
 

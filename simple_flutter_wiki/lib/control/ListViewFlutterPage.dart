@@ -7,7 +7,7 @@ class FlutterPageListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<FlutterPage>>(
-      future: DBProvider.db.findAll(),
+      future: DBProvider.db.findAllPages(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<FlutterPage> data = snapshot.data;
