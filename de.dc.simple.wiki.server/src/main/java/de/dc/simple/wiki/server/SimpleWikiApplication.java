@@ -27,13 +27,13 @@ public class SimpleWikiApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {
-		for (int i = 0; i < 10; i++) {
-			Page page = new Page();
-			page.setTitle("Spring Boot Application "+LocalDateTime.now());
-			page.setContent("Dummy Content");
-			page.setCreated(LocalDateTime.now());
-			page.setUpdated(LocalDateTime.now());
-			pageRepository.save(page);
-		}
+//		for (int i = 0; i < 10; i++) {
+//			Page page = new Page();
+//			page.setTitle("Spring Boot Application "+LocalDateTime.now());
+//			page.setContent("Dummy Content");
+//			page.setCreated(LocalDateTime.now());
+//			page.setUpdated(LocalDateTime.now());
+//			pageRepository.save(page);
+//		}
 	}
 }

@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:simple_flutter_wiki/control/DetailedPane.dart';
 import 'package:simple_flutter_wiki/model/FlutterPage.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import 'package:simple_flutter_wiki/provider/DBProvider.dart';
 
 class FlutterPageListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<FlutterPage>>(
-      future: DBProvider.db.getAllPages(),
+      future: DBProvider.db.findAll(),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           List<FlutterPage> data = snapshot.data;
@@ -20,20 +18,6 @@ class FlutterPageListView extends StatelessWidget {
         return CircularProgressIndicator();
       },
     );
-  }
-
-  Future<List<FlutterPage>> _fetchPages() async {
-    final pagesListAPIUrl = 'http://192.168.0.157:8080/pages';
-    final response = await http.get(pagesListAPIUrl);
-
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse
-          .map((page) => new FlutterPage.fromJson(page))
-          .toList();
-    } else {
-      throw Exception('Failed to load jobs from API');
-    }
   }
 
   Card createCard(BuildContext context, dynamic data) {

@@ -21,7 +21,7 @@ class DBProvider {
     return _database;
   }
 
-  // Create the database and the Employee table
+  // Create the database and the pages table
   initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     final path = join(documentsDirectory.path, 'wiki.db');
@@ -34,23 +34,33 @@ class DBProvider {
   }
 
   // Insert pages on database
-  createEmployee(FlutterPage newPage) async {
-    await deleteAllPages();
-    final db = await database;
-    final res = await db.insert('Pages', newPage.toJson());
+  insert(FlutterPage newPage) async {
+    var exist = await existPage(newPage.id);
+    if (exist == false) {
+      final db = await database;
+      final res = await db.insert('Pages', newPage.toJson());
+      return res;
+    } else {
+      return newPage;
+    }
+  }
 
-    return res;
+  Future<bool> existPage(int id) async {
+    var dbclient = _database;
+    int count = Sqflite.firstIntValue(
+        await dbclient.rawQuery("SELECT COUNT(*) FROM Pages WHERE id=$id"));
+    return count == 1;
   }
 
   // Delete all pages
-  Future<int> deleteAllPages() async {
+  Future<int> deleteAll() async {
     final db = await database;
     final res = await db.rawDelete('DELETE FROM pages');
 
     return res;
   }
 
-  Future<List<FlutterPage>> getAllPages() async {
+  Future<List<FlutterPage>> findAll() async {
     final db = await database;
     final res = await db.rawQuery("SELECT * FROM pages");
 
