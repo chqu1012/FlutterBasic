@@ -23,6 +23,7 @@ public class Page {
 	private LocalDateTime created;
 	private LocalDateTime updated;
 	private int status;
+	private long categoryId;
 
 	public Page() {
 	}
@@ -84,6 +85,14 @@ public class Page {
 		default:
 			return "N/A";
 		}
+	}
+
+	public long getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(long categoryId) {
+		this.categoryId = categoryId;
 	}
 
 }

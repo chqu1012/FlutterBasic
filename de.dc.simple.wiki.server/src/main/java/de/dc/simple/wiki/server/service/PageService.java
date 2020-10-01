@@ -15,12 +15,13 @@ public class PageService implements IPageService{
 	@Autowired PageRepository pageRepository;
 	
 	@Override
-	public Page create(String title, String content) {
+	public Page create(String title, String content, Long categoryId) {
 		Page page = new Page();
 		page.setContent(content);
 		page.setTitle(title);
 		page.setCreated(LocalDateTime.now());
 		page.setUpdated(LocalDateTime.now());
+		page.setCategoryId(categoryId);
 		return pageRepository.save(page);
 	}
 

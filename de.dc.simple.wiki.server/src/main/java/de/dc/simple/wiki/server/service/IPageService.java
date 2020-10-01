@@ -6,7 +6,7 @@ import de.dc.simple.wiki.server.model.Page;
 
 public interface IPageService {
 
-	Page create(String title, String content);
+	Page create(String title, String content, Long categoryId);
 	
 	List<Page> findAll();
 }
