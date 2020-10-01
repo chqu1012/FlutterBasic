@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:simple_flutter_wiki/model/FlutterPage.dart';
 
 class DetailedPane extends StatelessWidget {
+  List<int> top = [];
+  List<int> bottom = [0];
+
   final FlutterPage page;
   DetailedPane({this.page});
   @override
@@ -12,17 +15,6 @@ class DetailedPane extends StatelessWidget {
             backgroundColor: Color.fromRGBO(209, 224, 224, 0.2),
             value: 50,
             valueColor: AlwaysStoppedAnimation(Colors.green)),
-      ),
-    );
-
-    final coursePrice = Container(
-      padding: const EdgeInsets.all(7.0),
-      decoration: new BoxDecoration(
-          border: new Border.all(color: Colors.white),
-          borderRadius: BorderRadius.circular(5.0)),
-      child: new Text(
-        "\$" + page.title,
-        style: TextStyle(color: Colors.white),
       ),
     );
 
@@ -57,7 +49,6 @@ class DetailedPane extends StatelessWidget {
                       page.title,
                       style: TextStyle(color: Colors.white),
                     ))),
-            Expanded(flex: 1, child: coursePrice)
           ],
         ),
       ],
@@ -68,12 +59,7 @@ class DetailedPane extends StatelessWidget {
         Container(
             padding: EdgeInsets.only(left: 10.0),
             height: MediaQuery.of(context).size.height * 0.5,
-            decoration: new BoxDecoration(
-              image: new DecorationImage(
-                image: new AssetImage("drive-steering-wheel.jpg"),
-                fit: BoxFit.cover,
-              ),
-            )),
+            decoration: new BoxDecoration()),
         Container(
           height: MediaQuery.of(context).size.height * 0.5,
           padding: EdgeInsets.all(40.0),
@@ -96,18 +82,38 @@ class DetailedPane extends StatelessWidget {
       ],
     );
 
+    final bottomContent = LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+      return SingleChildScrollView(
+          child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    topContent,
+                    Container(
+                        alignment: Alignment.topCenter,
+                        padding: EdgeInsets.all(20),
+                        child: Text(page.content,
+                            style: TextStyle(fontSize: 18.0)))
+                  ])));
+    });
+/**
     final bottomContentText = Text(
       page.content,
       style: TextStyle(fontSize: 18.0),
     );
+
     final readButton = Container(
         padding: EdgeInsets.symmetric(vertical: 16.0),
         width: MediaQuery.of(context).size.width,
         child: RaisedButton(
           onPressed: () => {},
           color: Color.fromRGBO(58, 66, 86, 1.0),
-          child:
-              Text("TAKE THIS LESSON", style: TextStyle(color: Colors.white)),
+          child: Text("Close", style: TextStyle(color: Colors.white)),
         ));
     final bottomContent = Container(
       width: MediaQuery.of(context).size.width,
@@ -118,11 +124,9 @@ class DetailedPane extends StatelessWidget {
         ),
       ),
     );
-
+ */
     return Scaffold(
-      body: Column(
-        children: <Widget>[topContent, bottomContent],
-      ),
+      body: bottomContent,
     );
   }
 }

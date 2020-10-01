@@ -24,6 +24,7 @@ class FlutterWikiApp extends StatelessWidget {
       title: 'Simple Flutter Wiki',
       theme: new ThemeData(primaryColor: Color.fromRGBO(58, 66, 86, 1.0)),
       home: WikiPage(title: 'Flutter Wiki App'),
+      debugShowCheckedModeBanner: false,
     );
   }
 }
@@ -58,11 +59,7 @@ class _WikiPageState extends State<WikiPage> {
         ],
       ),
       bottomNavigationBar: BottomNavigationPane(),
-      body: isLoading
-          ? Center(
-              child: CircularProgressIndicator(),
-            )
-          : FlutterPageListView(),
+      body: FlutterPageListView(),
     );
   }
 
