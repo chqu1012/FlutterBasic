@@ -21,4 +21,18 @@ class WikiRestProvider {
       throw Exception('Failed to load jobs from API');
     }
   }
+
+  Future<http.Response> create(String title, String content) {
+    return http.post(
+      'http://192.168.0.157:8080/newpage',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'title': title,
+        'content': content,
+        'categoryId': '2',
+      }),
+    );
+  }
 }

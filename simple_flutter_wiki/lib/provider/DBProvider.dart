@@ -29,7 +29,7 @@ class DBProvider {
     return await openDatabase(path, version: 1, onOpen: (db) {},
         onCreate: (Database db, int version) async {
       await db.execute(
-          "CREATE TABLE pages(id INTEGER PRIMARY KEY, title TEXT, content TEXT, created TEXT, updated TEXT)");
+          "CREATE TABLE pages(id INTEGER PRIMARY KEY, title TEXT, content TEXT, created TEXT, updated TEXT, categoryId INTEGER)");
     });
   }
 
