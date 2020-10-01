@@ -74,5 +74,16 @@ public class Page {
 	public void setStatus(int status) {
 		this.status = status;
 	}
+	
+	public String getFormatStatus() {
+		switch (status) {
+		case 0:
+			return "Available";
+		case -1:
+			return "Deleted";
+		default:
+			return "N/A";
+		}
+	}
 
 }

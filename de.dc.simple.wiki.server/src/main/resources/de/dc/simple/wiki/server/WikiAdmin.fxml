@@ -11,11 +11,11 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-
-<SplitPane fx:id="root" dividerPositions="0.6393989983305509" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dc.simple.wiki.server.control.WikiAdmin">
+<SplitPane fx:id="root" dividerPositions="0.6393989983305509" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dc.simple.wiki.server.control.WikiAdmin">
    <items>
       <VBox>
          <children>
+            <TextField fx:id="textSearchPages" promptText="Search..." />
             <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="columnId" prefWidth="63.0" text="ID" />
@@ -23,9 +23,10 @@
                   <TableColumn fx:id="columnContent" prefWidth="120.0" text="CONTENT" />
                   <TableColumn fx:id="columnCreated" prefWidth="120.0" text="CREATED" />
                   <TableColumn fx:id="columnUpdated" prefWidth="120.0" text="UPDATED" />
+                  <TableColumn fx:id="columnStatus" prefWidth="120.0" text="STATUS" />
               </columns>
             </TableView>
-            <HBox>
+            <HBox alignment="CENTER_LEFT" spacing="5.0">
                <children>
                   <Label text="Pages" />
                   <Label fx:id="labelPages" text="0" />

@@ -13,6 +13,9 @@ import javafx.scene.control.TextField;
 
 public abstract class BaseWikiAdmin {
 
+	@FXML
+	protected TextField textSearchPages;
+	
     @FXML
     protected SplitPane root;
 
@@ -33,6 +36,9 @@ public abstract class BaseWikiAdmin {
 
     @FXML
     protected TableColumn<Page, LocalDateTime> columnUpdated;
+
+    @FXML
+    protected TableColumn<Page, Integer> columnStatus;
 
     @FXML
     protected Label labelPages;
