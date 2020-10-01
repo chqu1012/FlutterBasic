@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+
+<SplitPane fx:id="root" dividerPositions="0.6393989983305509" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.112" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dc.simple.wiki.server.control.WikiAdmin">
+   <items>
+      <VBox>
+         <children>
+            <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+              <columns>
+                <TableColumn fx:id="columnId" prefWidth="63.0" text="ID" />
+                <TableColumn fx:id="columnTitle" prefWidth="250.0" text="TITLE" />
+                  <TableColumn fx:id="columnContent" prefWidth="120.0" text="CONTENT" />
+                  <TableColumn fx:id="columnCreated" prefWidth="120.0" text="CREATED" />
+                  <TableColumn fx:id="columnUpdated" prefWidth="120.0" text="UPDATED" />
+              </columns>
+            </TableView>
+            <HBox>
+               <children>
+                  <Label text="Pages" />
+                  <Label fx:id="labelPages" text="0" />
+               </children>
+            </HBox>
+         </children>
+      </VBox>
+      <VBox prefHeight="200.0" prefWidth="100.0" spacing="5.0">
+         <children>
+            <Label text="TITLE" />
+            <TextField fx:id="textTitle" />
+            <Label text="CONTENT" />
+            <TextArea fx:id="textContent" prefHeight="200.0" prefWidth="200.0" />
+            <Button mnemonicParsing="false" onAction="#onButtonCreateAction" text="Create" />
+         </children>
+         <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+         </padding>
+      </VBox>
+   </items>
+</SplitPane>

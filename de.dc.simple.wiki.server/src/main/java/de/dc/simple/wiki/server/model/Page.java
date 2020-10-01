@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 
 @Entity
 public class Page {
@@ -13,10 +14,15 @@ public class Page {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
+	
+	@Lob 
 	private String title;
+	
+	@Lob 
 	private String content;
 	private LocalDateTime created;
 	private LocalDateTime updated;
+	private int status;
 
 	public Page() {
 	}
@@ -59,6 +65,14 @@ public class Page {
 
 	public void setUpdated(LocalDateTime updated) {
 		this.updated = updated;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 }
