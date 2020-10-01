@@ -11,7 +11,7 @@ public class CategoryListCell extends ListCell<Category>{
 		if (item == null || empty) {
 			setText(null);
 		} else {
-			setText(item.getName());
+			setText(item.getName()+"(id:"+item.getId()+")");
 		}
 	}
 }

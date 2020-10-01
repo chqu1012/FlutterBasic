@@ -61,6 +61,10 @@ public class WikiAdmin extends BaseWikiAdmin {
 		textSearchCategory.textProperty().addListener(this::onTextSearchCategoryFilter);
 	}
 
+	public void add(Page page) {
+		masterData.add(page);
+	}
+	
 	private void onTextSearchCategoryFilter(ObservableValue<? extends String> observable, String oldValue, String newValue) {
 		if (newValue != null) {
 			filteredCategoryData.setPredicate(e -> {
