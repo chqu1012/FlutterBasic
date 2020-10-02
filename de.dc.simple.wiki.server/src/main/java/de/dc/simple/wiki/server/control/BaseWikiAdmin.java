@@ -14,6 +14,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.InputMethodEvent;
+import javafx.scene.input.MouseEvent;
 
 public abstract class BaseWikiAdmin {
 
@@ -52,6 +53,9 @@ public abstract class BaseWikiAdmin {
 
     @FXML
     protected TableColumn<Page, Integer> columnStatus;
+    
+    @FXML
+    protected TableColumn<Page, Integer> columnCategory;
 
     @FXML
     protected Label labelPages;
@@ -73,4 +77,10 @@ public abstract class BaseWikiAdmin {
 
     @FXML
     protected abstract void onMenuItemNewCategory(ActionEvent event);
+
+    @FXML
+    protected abstract void onButtonShowAllAction(ActionEvent event);
+    
+    @FXML
+    protected abstract void onListViewCategoryClicked(MouseEvent e);
 }

@@ -15,12 +15,12 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<SplitPane fx:id="root" dividerPositions="0.20951585976627712, 0.7579298831385642" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dc.simple.wiki.server.control.WikiAdmin">
+<SplitPane fx:id="root" dividerPositions="0.20951585976627712, 0.7579298831385642" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1200.0" stylesheets="@css/WikiAdmin.css" xmlns="http://javafx.com/javafx/8.0.241" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.dc.simple.wiki.server.control.WikiAdmin">
    <items>
       <VBox prefHeight="200.0" prefWidth="100.0" SplitPane.resizableWithParent="false">
          <children>
             <TextField fx:id="textSearchCategory" promptText="Search Category..." />
-            <ListView fx:id="listViewCategory" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+            <ListView fx:id="listViewCategory" onMouseClicked="#onListViewCategoryClicked" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <contextMenu>
                   <ContextMenu>
                     <items>
@@ -35,7 +35,12 @@
       </VBox>
       <VBox>
          <children>
-            <TextField fx:id="textSearchPages" promptText="Search..." />
+            <HBox>
+               <children>
+                  <TextField fx:id="textSearchPages" promptText="Search..." HBox.hgrow="ALWAYS" />
+                  <Button mnemonicParsing="false" onAction="#onButtonShowAllAction" text="Show All" />
+               </children>
+            </HBox>
             <TableView fx:id="tableView" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
               <columns>
                 <TableColumn fx:id="columnId" prefWidth="63.0" text="ID" />
@@ -44,6 +49,7 @@
                   <TableColumn fx:id="columnCreated" prefWidth="120.0" text="CREATED" />
                   <TableColumn fx:id="columnUpdated" prefWidth="120.0" text="UPDATED" />
                   <TableColumn fx:id="columnStatus" prefWidth="120.0" text="STATUS" />
+                  <TableColumn fx:id="columnCategory" prefWidth="120.0" text="STATUS" />
               </columns>
             </TableView>
             <HBox alignment="CENTER_LEFT" spacing="5.0">

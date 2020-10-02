@@ -21,12 +21,15 @@ import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 
 @Controller
-public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<PageEvent>{
+public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<PageEvent> {
 
-	@Autowired IPageService pageService;
-	@Autowired ICategoryService categoryService;
+	@Autowired
+	IPageService pageService;
+	@Autowired
+	ICategoryService categoryService;
 
 	ObservableList<Page> masterData = FXCollections.observableArrayList();
 	FilteredList<Page> filteredData = new FilteredList<>(masterData);
@@ -41,22 +44,23 @@ public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<Page
 		columnCreated.setCellValueFactory(new PropertyValueFactory<>("created"));
 		columnUpdated.setCellValueFactory(new PropertyValueFactory<>("updated"));
 		columnStatus.setCellValueFactory(new PropertyValueFactory<>("formatStatus"));
+		columnCategory.setCellValueFactory(new PropertyValueFactory<>("categoryId"));
 
 		tableView.setItems(filteredData);
 		tableView.setFixedCellSize(20.0);
 
-		comboCategory.setCellFactory(e-> new CategoryListCell());
+		comboCategory.setCellFactory(e -> new CategoryListCell());
 		comboCategory.setConverter(new CategoryConverter());
 		comboCategory.setItems(masterCategoryData);
-		
-		listViewCategory.setCellFactory(e-> new CategoryListCell());
+
+		listViewCategory.setCellFactory(e -> new CategoryListCell());
 		listViewCategory.setItems(filteredCategoryData);
-		
+
 		listViewCategory.getSelectionModel().selectedItemProperty().addListener(this::onListViewCategoryChanged);
-		
+
 		masterData.addAll(pageService.findAll());
 		masterCategoryData.addAll(categoryService.findAll());
-		
+
 		labelPages.textProperty().bind(Bindings.size(masterData).asString());
 
 		textSearchPages.textProperty().addListener(this::onTextSearchPageFilter);
@@ -66,16 +70,18 @@ public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<Page
 	public void add(Page page) {
 		masterData.add(page);
 	}
-	
-	private void onTextSearchCategoryFilter(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+	private void onTextSearchCategoryFilter(ObservableValue<? extends String> observable, String oldValue,
+			String newValue) {
 		if (newValue != null) {
 			filteredCategoryData.setPredicate(e -> {
 				return e.getName().toLowerCase().contains(newValue.toLowerCase());
 			});
 		}
 	}
-	
-	private void onTextSearchPageFilter(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+
+	private void onTextSearchPageFilter(ObservableValue<? extends String> observable, String oldValue,
+			String newValue) {
 		if (newValue != null) {
 			filteredData.setPredicate(e -> {
 				boolean containsContent = e.getContent().toLowerCase().contains(newValue.toLowerCase());
@@ -87,13 +93,14 @@ public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<Page
 			});
 		}
 	}
-	
-	private void onListViewCategoryChanged(ObservableValue<? extends Category> observable, Category oldValue, Category newValue) {
-		if(newValue!=null) {
+
+	private void onListViewCategoryChanged(ObservableValue<? extends Category> observable, Category oldValue,
+			Category newValue) {
+		if (newValue != null) {
 			comboCategory.getSelectionModel().select(newValue);
 		}
 	}
-	
+
 	@Override
 	protected void onButtonCreateAction(ActionEvent event) {
 		String title = textTitle.getText();
@@ -136,7 +143,24 @@ public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<Page
 
 	@Override
 	public void onApplicationEvent(PageEvent event) {
-		Page page = event.getPage();		
+		Page page = event.getPage();
 		add(page);
+	}
+
+	@Override
+	protected void onListViewCategoryClicked(MouseEvent e) {
+		Category selection = listViewCategory.getSelectionModel().getSelectedItem();
+		if (selection != null) {
+			textSearchPages.setText("");
+			filteredData.setPredicate(p -> {
+				return p.getCategoryId() == selection.getId();
+			});
+		}
+	}
+
+	@Override
+	protected void onButtonShowAllAction(ActionEvent event) {
+		textSearchPages.setText("");
+		filteredData.setPredicate(o-> true);
 	}
 }
