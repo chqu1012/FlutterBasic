@@ -15,6 +15,7 @@ import de.dc.simple.wiki.server.model.User;
 import de.dc.simple.wiki.server.service.ICategoryService;
 import de.dc.simple.wiki.server.service.IPageService;
 import de.dc.simple.wiki.server.service.IUserService;
+import javafx.application.Platform;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -164,7 +165,7 @@ public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<Page
 	@Override
 	public void onApplicationEvent(PageEvent event) {
 		Page page = event.getPage();
-		add(page);
+		Platform.runLater(()->add(page));
 	}
 
 	@Override
