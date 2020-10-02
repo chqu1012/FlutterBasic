@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_flutter_wiki/main.dart';
+import 'package:simple_flutter_wiki/provider/WikiRestProvider.dart';
 
 import 'WikiScreen.dart';
 
@@ -11,6 +11,8 @@ class LoginScreen extends StatefulWidget {
 class _State extends State<LoginScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+
+  bool loginfail = false;
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +45,7 @@ class _State extends State<LoginScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'User Name',
+                          errorText: loginfail ? 'email not match' : null,
                         ),
                       ),
                     ),
@@ -54,6 +57,7 @@ class _State extends State<LoginScreen> {
                         decoration: InputDecoration(
                           border: OutlineInputBorder(),
                           labelText: 'Password',
+                          errorText: loginfail ? 'password not match' : null,
                         ),
                       ),
                     ),
@@ -74,11 +78,14 @@ class _State extends State<LoginScreen> {
                           onPressed: () {
                             print(nameController.text);
                             print(passwordController.text);
+                            login();
+                            /*
                             Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (BuildContext context) =>
                                         new WikiPage()));
+                                        */
                           },
                         )),
                     Container(
@@ -98,5 +105,25 @@ class _State extends State<LoginScreen> {
                     ))
                   ],
                 ))));
+  }
+
+  Future<void> login() async {
+    var provider = WikiRestProvider();
+    var response =
+        await provider.login(nameController.text, passwordController.text);
+    if (response.statusCode == 200) {
+      if (response.body == 'true') {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => new WikiPage()));
+      } else {
+        setState(() {
+          loginfail = true;
+        });
+      }
+    } else {
+      setState(() {
+        loginfail = true;
+      });
+    }
   }
 }

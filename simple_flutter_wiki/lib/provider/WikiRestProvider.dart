@@ -6,6 +6,17 @@ import 'package:http/http.dart' as http;
 import 'DBProvider.dart';
 
 class WikiRestProvider {
+  Future<http.Response> login(String username, String password) {
+    return http.post(
+      'http://192.168.0.157:8080/user/authentification',
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(
+          <String, String>{"username": username, "password": password}),
+    );
+  }
+
   Future<List<FlutterPage>> findAllPages() async {
     final pagesListAPIUrl = 'http://192.168.0.157:8080/pages';
     final response = await http.get(pagesListAPIUrl);
