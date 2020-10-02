@@ -11,7 +11,6 @@ class NewPageFormular extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: Color.fromRGBO(55, 65, 85, 1.0),
         appBar: AppBar(
             elevation: 0.1,
             backgroundColor: Color.fromRGBO(55, 65, 85, 1.0),
@@ -23,43 +22,31 @@ class NewPageFormular extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.start,
               mainAxisSize: MainAxisSize.max,
               children: <Widget>[
-                new Text(
-                  "Title",
-                  style: new TextStyle(
-                      fontSize: 16.0,
-                      color: const Color(0xFF97b8ea),
-                      fontWeight: FontWeight.w200,
-                      fontFamily: "Roboto"),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: bindingTitle,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Title',
+                    ),
+                  ),
                 ),
-                new TextField(
-                  controller: bindingTitle,
-                  style: new TextStyle(
-                      fontSize: 16.0,
-                      color: const Color(0xFF97b8ea),
-                      fontWeight: FontWeight.w200,
-                      fontFamily: "Roboto"),
-                ),
-                new Text(
-                  "Content",
-                  style: new TextStyle(
-                      fontSize: 16.0,
-                      color: const Color(0xFF97b8ea),
-                      fontWeight: FontWeight.w200,
-                      fontFamily: "Roboto"),
-                ),
-                new TextField(
-                  controller: bindingContent,
-                  style: new TextStyle(
-                      fontSize: 16.0,
-                      color: const Color(0xFF97b8ea),
-                      fontWeight: FontWeight.w200,
-                      fontFamily: "Roboto"),
+                Container(
+                  padding: EdgeInsets.all(10),
+                  child: TextField(
+                    controller: bindingContent,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(),
+                      labelText: 'Content',
+                    ),
+                  ),
                 ),
                 new Text(
                   "Category",
                   style: new TextStyle(
                       fontSize: 16.0,
-                      color: const Color(0xFF97b8ea),
+                      color: const Color.fromRGBO(55, 65, 85, 1.0),
                       fontWeight: FontWeight.w200,
                       fontFamily: "Roboto"),
                 ),
@@ -70,9 +57,6 @@ class NewPageFormular extends StatelessWidget {
 
                       if (snapshot.hasData) {
                         return DropdownButtonFormField(
-                          decoration: new InputDecoration(
-                              icon: Icon(
-                                  Icons.language)), //, color: Colors.white10
                           items: snapshot.data
                               .map<DropdownMenuItem<FlutterCategory>>(
                                   (FlutterCategory category) {
@@ -82,24 +66,21 @@ class NewPageFormular extends StatelessWidget {
                                     style:
                                         TextStyle(color: Color(0xFF97b8ea))));
                           }).toList(),
-
                           onChanged: (FlutterCategory newValue) {
                             selectedCategoryId = newValue.id.toString();
                           },
                         );
                       }
                     }),
-                new RaisedButton(
-                    key: null,
-                    onPressed: () => buttonPressed(context),
-                    color: const Color(0xFFe0e0e0),
-                    child: new Text(
-                      "Create",
-                      style: new TextStyle(
-                          fontSize: 12.0,
-                          color: const Color(0xFF000000),
-                          fontWeight: FontWeight.w200,
-                          fontFamily: "Roboto"),
+                Container(
+                    height: 50,
+                    width: 300,
+                    padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                    child: RaisedButton(
+                      textColor: Colors.white,
+                      color: Colors.blue,
+                      child: Text('Create'),
+                      onPressed: () => buttonPressed(context),
                     )),
               ]),
         ));
