@@ -40,7 +40,8 @@ class WikiRestProvider {
     }
   }
 
-  Future<http.Response> create(String title, String content) {
+  Future<http.Response> create(
+      String title, String content, String categoryId) {
     return http.post(
       'http://192.168.0.157:8080/newpage',
       headers: <String, String>{
@@ -49,7 +50,7 @@ class WikiRestProvider {
       body: jsonEncode(<String, String>{
         'title': title,
         'content': content,
-        'categoryId': '2',
+        'categoryId': categoryId,
       }),
     );
   }

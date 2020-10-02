@@ -5,6 +5,7 @@ import 'package:simple_flutter_wiki/provider/WikiRestProvider.dart';
 
 var bindingTitle = new TextEditingController();
 var bindingContent = new TextEditingController();
+String selectedCategoryId;
 
 class NewPageFormular extends StatelessWidget {
   @override
@@ -84,9 +85,7 @@ class NewPageFormular extends StatelessWidget {
                           }).toList(),
 
                           onChanged: (FlutterCategory newValue) {
-                            // selectedCountry = newValue;
-                            print(newValue.id);
-                            print(newValue.name);
+                            selectedCategoryId = newValue.id.toString();
                           },
                         );
                       }
@@ -107,15 +106,11 @@ class NewPageFormular extends StatelessWidget {
         ));
   }
 
-  void onDropDownChanged(FlutterCategory category) {
-    print(category.name);
-  }
-
   void buttonPressed(BuildContext context) {
     var content = bindingContent.text;
     var title = bindingTitle.text;
     var apiProvider = WikiRestProvider();
-    apiProvider.create(title, content);
+    apiProvider.create(title, content, selectedCategoryId);
 
     Navigator.pop(context);
   }
