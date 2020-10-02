@@ -77,11 +77,10 @@ class NewPageFormular extends StatelessWidget {
                               .map<DropdownMenuItem<FlutterCategory>>(
                                   (FlutterCategory category) {
                             return DropdownMenuItem<FlutterCategory>(
-                              value: category,
-                              child: Text(category.name,
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(58, 66, 46, .9))),
-                            );
+                                value: category,
+                                child: Text(category.name,
+                                    style:
+                                        TextStyle(color: Color(0xFF97b8ea))));
                           }).toList(),
 
                           onChanged: (FlutterCategory newValue) {
@@ -111,6 +110,9 @@ class NewPageFormular extends StatelessWidget {
     var title = bindingTitle.text;
     var apiProvider = WikiRestProvider();
     apiProvider.create(title, content, selectedCategoryId);
+
+    bindingContent.text = '';
+    bindingTitle.text = '';
 
     Navigator.pop(context);
   }
