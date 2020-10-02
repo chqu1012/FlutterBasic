@@ -30,9 +30,9 @@ class _State extends State<LoginScreen> {
                         alignment: Alignment.center,
                         padding: EdgeInsets.all(10),
                         child: Text(
-                          '',
+                          'Simple Wiki Application',
                           style: TextStyle(
-                              color: Colors.blue,
+                              color: Color.fromRGBO(55, 65, 85, 1.0),
                               fontWeight: FontWeight.w500,
                               fontSize: 30),
                         )),
@@ -69,7 +69,7 @@ class _State extends State<LoginScreen> {
                         padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                         child: RaisedButton(
                           textColor: Colors.white,
-                          color: Colors.blue,
+                          color: Color.fromRGBO(55, 65, 85, 1.0),
                           child: Text('Login'),
                           onPressed: () {
                             print(nameController.text);

@@ -14,7 +14,7 @@ class NewPageFormular extends StatelessWidget {
         appBar: AppBar(
             elevation: 0.1,
             backgroundColor: Color.fromRGBO(55, 65, 85, 1.0),
-            title: Text('New Wiki Page Formular')),
+            title: Text('New Wiki Page')),
         body: Container(
           padding: EdgeInsets.all(20),
           child: new Column(
@@ -78,7 +78,7 @@ class NewPageFormular extends StatelessWidget {
                     padding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                     child: RaisedButton(
                       textColor: Colors.white,
-                      color: Colors.blue,
+                      color: Color.fromRGBO(55, 65, 85, 1.0),
                       child: Text('Create'),
                       onPressed: () => buttonPressed(context),
                     )),
