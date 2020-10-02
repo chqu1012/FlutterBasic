@@ -11,8 +11,10 @@ import de.dc.simple.wiki.server.control.converter.CategoryConverter;
 import de.dc.simple.wiki.server.event.PageEvent;
 import de.dc.simple.wiki.server.model.Category;
 import de.dc.simple.wiki.server.model.Page;
+import de.dc.simple.wiki.server.model.User;
 import de.dc.simple.wiki.server.service.ICategoryService;
 import de.dc.simple.wiki.server.service.IPageService;
+import de.dc.simple.wiki.server.service.IUserService;
 import javafx.beans.binding.Bindings;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -26,10 +28,9 @@ import javafx.scene.input.MouseEvent;
 @Controller
 public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<PageEvent> {
 
-	@Autowired
-	IPageService pageService;
-	@Autowired
-	ICategoryService categoryService;
+	@Autowired IPageService pageService;
+	@Autowired ICategoryService categoryService;
+	@Autowired IUserService userService;
 
 	ObservableList<Page> masterData = FXCollections.observableArrayList();
 	FilteredList<Page> filteredData = new FilteredList<>(masterData);
@@ -37,7 +38,26 @@ public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<Page
 	ObservableList<Category> masterCategoryData = FXCollections.observableArrayList();
 	FilteredList<Category> filteredCategoryData = new FilteredList<>(masterCategoryData);
 
+	ObservableList<User> masterUserData = FXCollections.observableArrayList();
+	FilteredList<User> filteredUserData = new FilteredList<>(masterUserData);
+
 	public void initialize() {
+		initPaneWiki();
+		initPaneUserManagement();
+	}
+
+	private void initPaneUserManagement() {
+		columnUserActive.setCellValueFactory(new PropertyValueFactory<>("isActive"));
+		columnUserCreated.setCellValueFactory(new PropertyValueFactory<>("created"));
+		columnUserFirstname.setCellValueFactory(new PropertyValueFactory<>("lastname"));
+		columnUserLastname.setCellValueFactory(new PropertyValueFactory<>("firstname"));
+		columnUsername.setCellValueFactory(new PropertyValueFactory<>("username"));
+		
+		masterUserData.addAll(userService.findAll());
+		tableViewUser.setItems(filteredUserData);
+	}
+
+	private void initPaneWiki() {
 		columnContent.setCellValueFactory(new PropertyValueFactory<>("content"));
 		columnTitle.setCellValueFactory(new PropertyValueFactory<>("title"));
 		columnId.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -162,5 +182,31 @@ public class WikiAdmin extends BaseWikiAdmin implements ApplicationListener<Page
 	protected void onButtonShowAllAction(ActionEvent event) {
 		textSearchPages.setText("");
 		filteredData.setPredicate(o-> true);
+	}
+
+	@Override
+	protected void onButtonCreateNewUser(ActionEvent event) {
+		String username = textUsername.getText();
+		String firstname = textFirstname.getText();
+		String lastname = textLastname.getText();
+		String password = textPassword.getText();
+		boolean isActive = true;
+		User user = userService.create(username, firstname, lastname, password, isActive);
+		masterUserData.add(user);
+		
+		textUsername.setText("");
+		textFirstname.setText("");
+		textLastname.setText("");
+		textPassword.setText("");
+	}
+
+	@Override
+	protected void onButtonOpenUserManagementAction(ActionEvent event) {
+		paneUserManagement.toFront();
+	}
+
+	@Override
+	protected void onButtonOpenWikiAction(ActionEvent event) {
+		paneWiki.toFront();
 	}
 }
